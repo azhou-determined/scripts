@@ -1,9 +1,4 @@
 import argparse
-import os
-import re
-import sys
-
-from google.auth import compute_engine
 from enum import Enum
 from typing import Dict, List, Tuple
 
@@ -35,7 +30,7 @@ def tag_aws_instances(keypair: str, tags: List[Tuple]):
             if instance.state["Name"] == "running" and instance.key_name == keypair:
                 aws_tags = [get_aws_tag(tag_key, tag_value) for (tag_key, tag_value) in tags]
                 tag = instance.create_tags(
-                    DryRun=True,
+                    DryRun=False,
                     Tags=aws_tags
                 )
                 print(f"Added tag {tag} for {instance.id} (keypair: {instance.key_name})")
