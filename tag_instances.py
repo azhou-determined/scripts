@@ -103,8 +103,10 @@ if __name__ == "__main__":
     parser.add_argument("--tags")
     args = parser.parse_args()
     assert args.group or args.tags, "No tags specified"
-
-    tags = parse_tags(args.tags or "")
+    if args.tags:
+        tags = parse_tags(args.tags)
+    else:
+        tags = []
     if args.group:
         assert args.group in TAGS[TagType.GROUP.value], f"{args.group} not in recognized group tags"
         tags.append((TagType.GROUP.value, args.group))
